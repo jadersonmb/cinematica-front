@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import validate from 'validate.js';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import MuiAlert from '@material-ui/lab/Alert';
 import {
   Button,
-  Switch,
-  FormHelperText,
+  Snackbar,
   TextField,
-  Typography,
-  Link
+  Typography
 } from '@material-ui/core';
 
 import useRouter from 'utils/useRouter';
 import axios from 'axios';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const schema = {
   descricao: {
@@ -58,6 +60,7 @@ const RegisterForm = props => {
 
   const classes = useStyles();
   const { history } = useRouter();
+  const [open, setOpen] = React.useState(false);
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -101,6 +104,7 @@ const RegisterForm = props => {
     formState.touched[field] && formState.errors[field] ? true : false;
 
   const onSalvar = () => {
+    setOpen(true);
     EspecialidadeDTO.descricao = formState.values.descricao
     axios({
       method: 'POST',
@@ -109,6 +113,13 @@ const RegisterForm = props => {
     }).catch((error) => {
     });
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <form
@@ -137,6 +148,11 @@ const RegisterForm = props => {
       >
         Salvar
       </Button>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Especialidade salva com sucesso.
+        </Alert>
+      </Snackbar>
     </form>
   );
 };

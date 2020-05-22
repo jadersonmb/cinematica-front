@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-
 import axios from 'axios';
 import { Page, SearchBar } from 'components';
 import { Header, Results } from './components';

@@ -29,9 +29,8 @@ const TableEditBar = props => {
   const {
     selected,
     url,
-    className,
     onMarkPaid,
-    onMarkUnpaid,
+    className,
     onDelete = () => {
       var deleteAPI = new Promise(function (resolve, reject) {
         axios.delete(url + selected).then(response => {
@@ -47,13 +46,22 @@ const TableEditBar = props => {
   } = props;
 
   const classes = useStyles();
-  const open = selected.length > 0;
+  var open = selected.length > 0;  
+
+  const onMarkUnpaid = () => {
+    selected.length = 0;
+    open = selected.length > 0;
+    console.log(open);
+  }
+
+  const showButtonCancelar = selected.length > 1;
 
   return (
     <Drawer
       anchor="bottom"
       open={open}
-      // eslint-disable-next-line react/jsx-sort-props
+      onClose={open}
+      /* eslint-disable-next-line react/jsx-sort-props */
       PaperProps={{ elevation: 1 }}
       variant="persistent"
     >
@@ -85,7 +93,7 @@ const TableEditBar = props => {
             xs={12}
           >
             <div className={classes.actions}>
-              <Button onClick={onMarkPaid}>
+              <Button onClick={onMarkPaid} style={{ display: showButtonCancelar ? "none" : "block" }}>
                 <CheckIcon className={classes.buttonIcon} />
                 Editar
               </Button>
