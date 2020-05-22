@@ -184,19 +184,6 @@ const TopBar = props => {
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden smDown>
-          <div
-            className={classes.search}
-            ref={searchRef}
-          >
-            <SearchIcon className={classes.searchIcon} />
-            <Input
-              className={classes.searchInput}
-              disableUnderline
-              onChange={handleSearchChange}
-              placeholder="Search people &amp; places"
-              value={searchValue}
-            />
-          </div>
           <Popper
             anchorEl={searchRef.current}
             className={classes.searchPopper}
@@ -225,14 +212,6 @@ const TopBar = props => {
               </Paper>
             </ClickAwayListener>
           </Popper>
-          <Button
-            className={classes.trialButton}
-            onClick={handlePricingOpen}
-            variant="contained"
-          >
-            <LockIcon className={classes.trialIcon} />
-            Trial expired
-          </Button>
         </Hidden>
         <Hidden mdDown>
           <IconButton
@@ -255,7 +234,7 @@ const TopBar = props => {
             onClick={handleLogout}
           >
             <InputIcon className={classes.logoutIcon} />
-            Sign out
+            Sair
           </Button>
         </Hidden>
         <Hidden lgUp>

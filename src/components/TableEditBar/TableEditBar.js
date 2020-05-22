@@ -6,6 +6,7 @@ import { Drawer, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,10 +28,21 @@ const useStyles = makeStyles(theme => ({
 const TableEditBar = props => {
   const {
     selected,
+    url,
     className,
     onMarkPaid,
     onMarkUnpaid,
-    onDelete,
+    onDelete = () => {
+      var deleteAPI = new Promise(function (resolve, reject) {
+        axios.delete(url + selected).then(response => {
+          console.log(response);
+          resolve();
+        }).catch(error => {
+          console.log(error);
+          reject();
+        });
+      });
+    },
     ...rest
   } = props;
 
@@ -63,7 +75,7 @@ const TableEditBar = props => {
                 color="textSecondary"
                 variant="subtitle1"
               >
-                {selected.length} selected
+                {selected.length} Selecionados
               </Typography>
             </Grid>
           </Hidden>
@@ -75,15 +87,15 @@ const TableEditBar = props => {
             <div className={classes.actions}>
               <Button onClick={onMarkPaid}>
                 <CheckIcon className={classes.buttonIcon} />
-                Mark Paid
+                Editar
               </Button>
               <Button onClick={onMarkUnpaid}>
                 <CloseIcon className={classes.buttonIcon} />
-                Mark Unpaid
+                Cancelar
               </Button>
               <Button onClick={onDelete}>
                 <DeleteIcon className={classes.buttonIcon} />
-                Delete
+                Excluir
               </Button>
             </div>
           </Grid>

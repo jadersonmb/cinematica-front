@@ -47,7 +47,7 @@ const Search = props => {
         <Input
           className={classes.searchInput}
           disableUnderline
-          placeholder="Search"
+          placeholder="Descrição"
         />
       </Paper>
       <Button
@@ -56,7 +56,7 @@ const Search = props => {
         size="large"
         variant="contained"
       >
-        Search
+        Buscar
       </Button>
     </div>
   );

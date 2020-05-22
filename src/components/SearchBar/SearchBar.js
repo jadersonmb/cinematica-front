@@ -56,15 +56,6 @@ const SearchBar = props => {
         />
       </Grid>
       <Grid item>
-        <Button
-          className={classes.filterButton}
-          color="primary"
-          onClick={handleFilterOpen}
-          size="small"
-          variant="outlined"
-        >
-          <FilterListIcon className={classes.filterIcon} /> Show filters
-        </Button>
       </Grid>
       <Filter
         onClose={handleFilterClose}
