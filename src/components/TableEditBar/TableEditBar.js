@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -31,36 +31,27 @@ const TableEditBar = props => {
     url,
     onMarkPaid,
     className,
-    onDelete = () => {
-      var deleteAPI = new Promise(function (resolve, reject) {
-        axios.delete(url + selected).then(response => {
-          console.log(response);
-          resolve();
-        }).catch(error => {
-          console.log(error);
-          reject();
-        });
-      });
-    },
     ...rest
   } = props;
 
   const classes = useStyles();
-  var open = selected.length > 0;  
 
-  const onMarkUnpaid = () => {
-    selected.length = 0;
-    open = selected.length > 0;
-    console.log(open);
+  const onDelete = () => {
+    new Promise(function (resolve, reject) {
+      axios.delete(url + selected).then(response => {
+      }).catch(error => {        
+        console.log(error.response.data[0].mensagemUsuario);
+      })
+    });
   }
 
+  const open = selected.length > 0;
   const showButtonCancelar = selected.length > 1;
 
   return (
     <Drawer
       anchor="bottom"
       open={open}
-      onClose={open}
       /* eslint-disable-next-line react/jsx-sort-props */
       PaperProps={{ elevation: 1 }}
       variant="persistent"
@@ -96,10 +87,6 @@ const TableEditBar = props => {
               <Button onClick={onMarkPaid} style={{ display: showButtonCancelar ? "none" : "block" }}>
                 <CheckIcon className={classes.buttonIcon} />
                 Editar
-              </Button>
-              <Button onClick={onMarkUnpaid}>
-                <CloseIcon className={classes.buttonIcon} />
-                Cancelar
               </Button>
               <Button onClick={onDelete}>
                 <DeleteIcon className={classes.buttonIcon} />

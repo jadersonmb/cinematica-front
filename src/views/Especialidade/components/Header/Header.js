@@ -10,9 +10,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Header = props => {
-  const { className, ...rest } = props;
+  const { className, setNovoItem, ...rest } = props;
 
   const classes = useStyles();
+
+  const novoItem = () => {
+    setNovoItem(true);
+  }
 
   return (
     <div
@@ -42,10 +46,8 @@ const Header = props => {
         <Grid item>
           <Button
             color="primary"
-            variant="contained"
-            component={RouterLink}
-            to={`/NovoEspecialidade`}
-          >
+            onClick={novoItem}
+            variant="contained">
             Novo
           </Button>
         </Grid>

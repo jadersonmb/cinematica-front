@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterForm = props => {
-  const { className, ...rest } = props;
+  const { descricao, setMessage, setTypeMessage, setIsMessage, ...rest } = props;
 
   const classes = useStyles();
   const { history } = useRouter();
@@ -69,18 +69,17 @@ const RegisterForm = props => {
     errors: {}
   });
 
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
   const handleChange = event => {
     event.persist();
+
+   const errors = validate(formState.values, schema);
+    if (event.target.value.length > 0) {
+      formState.isValid = true;
+      formState.errors = errors ? false : true;
+    } else {
+      formState.isValid = false;
+      formState.errors = errors ? false : true;
+    }
 
     setFormState(formState => ({
       ...formState,
@@ -104,14 +103,22 @@ const RegisterForm = props => {
     formState.touched[field] && formState.errors[field] ? true : false;
 
   const onSalvar = () => {
-    setOpen(true);
     EspecialidadeDTO.descricao = formState.values.descricao
-    axios({
-      method: 'POST',
-      url: 'http://localhost:8080/especialidades/',
-      data: EspecialidadeDTO
-    }).catch((error) => {
-    });
+    new Promise(function (resolve, reject) {
+      axios({
+        method: 'POST',
+        url: 'http://localhost:8080/especialidades/',
+        data: EspecialidadeDTO
+      }).then(() => {
+        setTypeMessage('success')
+        setMessage('Registro salvo com sucesso.');
+        setIsMessage(true)
+      }).catch(error => {
+        setTypeMessage('error')
+        setMessage('Error ao salvar o registro.');
+        setIsMessage(true)
+      });;
+    })
   }
 
   const handleClose = (event, reason) => {
@@ -124,9 +131,7 @@ const RegisterForm = props => {
   return (
     <form
       {...rest}
-      className={clsx(classes.root, className)}
-      onSubmit={handleSubmit}
-    >
+      className={clsx(classes.root, descricao)}>
       <div className={classes.fields}>
         <TextField
           error={hasError('descricao')}
@@ -148,17 +153,12 @@ const RegisterForm = props => {
       >
         Salvar
       </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Especialidade salva com sucesso.
-        </Alert>
-      </Snackbar>
     </form>
   );
 };
 
 RegisterForm.propTypes = {
-  className: PropTypes.string
+  descricao: PropTypes.string
 };
 
 export default RegisterForm;

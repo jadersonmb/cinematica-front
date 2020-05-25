@@ -75,11 +75,6 @@ const routes = [
         component: lazy(() => import('views/Especialidade'))
       },
       {
-        path: '/NovoEspecialidade',
-        exact: true,
-        component: lazy(() => import('views/RegisterEspecialidade'))
-      },
-      {
         component: () => <Redirect to="/errors/error-404" />
       }
     ]
