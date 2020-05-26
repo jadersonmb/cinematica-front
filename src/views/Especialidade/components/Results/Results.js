@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
-  const { className, customers, ...rest } = props;
+  const { className, customers, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, ...rest } = props;
 
   const classes = useStyles();
 
@@ -178,7 +178,7 @@ const Results = props => {
           />
         </CardActions>
       </Card>
-      <TableEditBar selected={selectedCustomers}  url={'http://localhost:8080/especialidades/'}/>
+      <TableEditBar selected={selectedCustomers} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage}/>
     </div>
   );
 };

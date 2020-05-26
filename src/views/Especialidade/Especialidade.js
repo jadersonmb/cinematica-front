@@ -38,25 +38,21 @@ const Especialidade = () => {
   const [typeMessage, setTypeMessage] = useState();
   const [novoItem, setNovoItem] = useState(false);
 
+
+  const fetchCustomers = () => {
+    axios.get('especialidades/').then(response => {
+      setCustomers(response.data);
+    }).catch((error) => {
+      setIsMessage(true);
+      setTypeMessage('error');
+      setMessage('Erro na requisição da API. Favor contactar o Administrador do Sistema');
+    })
+  };
+
   useEffect(() => {
     let mounted = true;
 
-    const fetchCustomers = () => {
-      axios.get('http://localhost:8080/especialidades/').then(response => {
-        if (mounted) {
-          setCustomers(response.data);
-          setIsMessage(false);
-        }
-      }).catch((error) => {
-        setIsMessage(true);
-        setTypeMessage('error');
-        setMessage('Erro na requisição da API. Favor contactar o Administrador do Sistema');
-      }).finally(() => {
-      });;
-    };
-    
     fetchCustomers();
-
     return () => {
       mounted = false;
     };
@@ -65,10 +61,17 @@ const Especialidade = () => {
   const handleFilter = () => { };
   const handleSearch = () => { };
 
+  const closeMessage = () => {
+    setTimeout(() => {
+      setIsMessage(false);
+      setMessage('');
+    }, 3000);
+  }
+
   const fecharNovoItem = () => {
     setNovoItem(false);
   }
-
+  
   return (
     <Page
       className={classes.root}
@@ -90,12 +93,17 @@ const Especialidade = () => {
                 <CancelIcon />
               </IconButton>
             } />
-            <RegisterForm setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage} />
+            <RegisterForm fecharNovoItem={fecharNovoItem} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage} />
           </Card>
         </div>
       }
       {customers && (
         <Results
+          closeMessage={closeMessage} 
+          fetchCustomers={fetchCustomers}
+          setMessage={setMessage} 
+          setTypeMessage={setTypeMessage}
+          setIsMessage={setIsMessage}
           className={classes.results}
           customers={customers}
         />

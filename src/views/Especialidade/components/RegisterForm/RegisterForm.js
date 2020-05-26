@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterForm = props => {
-  const { descricao, setMessage, setTypeMessage, setIsMessage, ...rest } = props;
+  const { descricao, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, fecharNovoItem, ...rest } = props;
 
   const classes = useStyles();
   const { history } = useRouter();
@@ -94,10 +94,10 @@ const RegisterForm = props => {
     }));
   };
 
-  const handleSubmit = async event => {
+  /*const handleSubmit = async event => {
     event.preventDefault();
     history.push('/Especialidade');
-  };
+  };*/
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
@@ -113,11 +113,15 @@ const RegisterForm = props => {
         setTypeMessage('success')
         setMessage('Registro salvo com sucesso.');
         setIsMessage(true)
+        fetchCustomers();
+        fecharNovoItem();
       }).catch(error => {
         setTypeMessage('error')
         setMessage('Error ao salvar o registro.');
         setIsMessage(true)
-      });;
+      }).finally(
+        closeMessage()
+      );
     })
   }
 
@@ -147,10 +151,8 @@ const RegisterForm = props => {
         color="secondary"
         disabled={!formState.isValid}
         size="small"
-        type="submit"
         variant="contained"
-        onClick={onSalvar}
-      >
+        onClick={onSalvar}>
         Salvar
       </Button>
     </form>

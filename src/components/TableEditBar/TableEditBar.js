@@ -28,9 +28,13 @@ const useStyles = makeStyles(theme => ({
 const TableEditBar = props => {
   const {
     selected,
-    url,
     onMarkPaid,
     className,
+    closeMessage,
+    fetchCustomers,
+    setMessage,
+    setTypeMessage,
+    setIsMessage,
     ...rest
   } = props;
 
@@ -38,10 +42,21 @@ const TableEditBar = props => {
 
   const onDelete = () => {
     new Promise(function (resolve, reject) {
-      axios.delete(url + selected).then(response => {
-      }).catch(error => {        
-        console.log(error.response.data[0].mensagemUsuario);
-      })
+      var urlDelete = selected.length > 1 ? 'deleteList/' + selected : selected;
+      axios.delete('especialidades/' + urlDelete).then(response => {
+      }).then(() => {
+        setTypeMessage('success');
+        setMessage('Registro excluído com sucesso.');
+        setIsMessage(true);
+        selected.length = 0;
+        fetchCustomers();
+      }).catch(error => {
+        setTypeMessage('error')
+        setMessage(error.response.data[0].mensagemUsuario);
+        setIsMessage(true)
+      }).finally(
+        closeMessage()
+      );
     });
   }
 
