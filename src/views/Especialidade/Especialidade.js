@@ -33,13 +33,15 @@ const useStyles = makeStyles(theme => ({
 const Especialidade = () => {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
+  const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [isMessage, setIsMessage] = useState(false);
   const [message, setMessage] = useState();
   const [typeMessage, setTypeMessage] = useState();
-  const [novoItem, setNovoItem] = useState(false);
+  const [newItem, setNewItem] = useState(false);
 
 
   const fetchCustomers = () => {
+    window.scrollTo(0, 0);
     axios.get('especialidades/').then(response => {
       setCustomers(response.data);
     }).catch((error) => {
@@ -68,8 +70,12 @@ const Especialidade = () => {
     }, 3000);
   }
 
-  const fecharNovoItem = () => {
-    setNovoItem(false);
+  const closeNewItem = () => {
+    setNewItem(false);
+  }
+
+  const onEdit = () => {
+    setNewItem(true);
   }
   
   return (
@@ -77,7 +83,7 @@ const Especialidade = () => {
       className={classes.root}
       title="Especialidades"
     >
-      <Header setNovoItem={setNovoItem} />
+      <Header setNewItem={setNewItem} />
       <SearchBar
         onFilter={handleFilter}
         onSearch={handleSearch}
@@ -85,20 +91,24 @@ const Especialidade = () => {
       {(isMessage) &&
         <Alert variant="filled" severity={typeMessage} className={classes.alert}>{message}</Alert>
       }
-      {(novoItem) &&
+      {(newItem) &&
         <div>
           <Card className={classes.card}>
             <CardHeader title="Nova Especialidade" action={
-              <IconButton aria-label="cancel" onClickCapture={fecharNovoItem}>
+              <IconButton aria-label="cancel" onClickCapture={closeNewItem}>
                 <CancelIcon />
               </IconButton>
             } />
-            <RegisterForm fecharNovoItem={fecharNovoItem} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage} />
+            <RegisterForm customers={customers} selectedCustomers={selectedCustomers} closeNewItem={closeNewItem} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage} />
           </Card>
         </div>
       }
       {customers && (
         <Results
+          onEdit={onEdit}
+          selectedCustomers={selectedCustomers}
+          setSelectedCustomers={setSelectedCustomers}
+          setNewItem={setNewItem}
           closeMessage={closeMessage} 
           fetchCustomers={fetchCustomers}
           setMessage={setMessage} 

@@ -50,20 +50,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
-  const { className, customers, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, ...rest } = props;
+  const { className, customers, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, setNewItem, setSelectedCustomers, selectedCustomers, onEdit, ...rest } = props;
 
   const classes = useStyles();
-
-  const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSelectAll = event => {
-    const selectedCustomers = event.target.checked
+    const selected = event.target.checked
       ? customers.map(customer => customer.id)
       : [];
 
-    setSelectedCustomers(selectedCustomers);
+    setSelectedCustomers(selected);
   };
 
   const handleSelectOne = (event, id) => {
@@ -86,8 +84,8 @@ const Results = props => {
         selectedCustomers.slice(selectedIndex + 1)
       );
     }
-
     setSelectedCustomers(newSelectedCustomers);
+    console.log(JSON.stringify(newSelectedCustomers))
   };
 
   const handleChangePage = (event, page) => {
@@ -178,7 +176,7 @@ const Results = props => {
           />
         </CardActions>
       </Card>
-      <TableEditBar selected={selectedCustomers} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage}/>
+      <TableEditBar onEdit={onEdit} setNewItem={setNewItem} selected={selectedCustomers} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage}/>
     </div>
   );
 };

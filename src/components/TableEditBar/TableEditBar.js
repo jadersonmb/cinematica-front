@@ -28,8 +28,9 @@ const useStyles = makeStyles(theme => ({
 const TableEditBar = props => {
   const {
     selected,
-    onMarkPaid,
+    setNewItem,
     className,
+    onEdit,
     closeMessage,
     fetchCustomers,
     setMessage,
@@ -62,7 +63,7 @@ const TableEditBar = props => {
 
   const open = selected.length > 0;
   const showButtonCancelar = selected.length > 1;
-
+  
   return (
     <Drawer
       anchor="bottom"
@@ -99,7 +100,7 @@ const TableEditBar = props => {
             xs={12}
           >
             <div className={classes.actions}>
-              <Button onClick={onMarkPaid} style={{ display: showButtonCancelar ? "none" : "block" }}>
+              <Button onClick={onEdit} style={{ display: showButtonCancelar ? "none" : "block" }}>
                 <CheckIcon className={classes.buttonIcon} />
                 Editar
               </Button>

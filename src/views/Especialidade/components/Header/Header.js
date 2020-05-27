@@ -10,12 +10,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Header = props => {
-  const { className, setNovoItem, ...rest } = props;
+  const { className, setNewItem, ...rest } = props;
 
   const classes = useStyles();
 
-  const novoItem = () => {
-    setNovoItem(true);
+  const newItem = () => {
+    setNewItem(true);
   }
 
   return (
@@ -46,7 +46,7 @@ const Header = props => {
         <Grid item>
           <Button
             color="primary"
-            onClick={novoItem}
+            onClick={newItem}
             variant="contained">
             Novo
           </Button>

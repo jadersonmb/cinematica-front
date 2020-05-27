@@ -56,18 +56,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterForm = props => {
-  const { descricao, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, fecharNovoItem, ...rest } = props;
-
+  const {descricao, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, closeNewItem, customers, selectedCustomers, ...rest } = props;
+  
   const classes = useStyles();
   const { history } = useRouter();
   const [open, setOpen] = React.useState(false);
 
   const [formState, setFormState] = useState({
     isValid: false,
-    values: {},
-    touched: {},
+    values: {
+      descricao: ''
+    },
+    touched: {
+    },
     errors: {}
   });
+
+  if (selectedCustomers.length === 1 && formState.values.descricao === '') {
+    const customer = customers.filter(e => e.id === selectedCustomers[0]);
+    formState.values.descricao = customer[0].descricao;
+    formState.isValid = true;
+  }
 
   const handleChange = event => {
     event.persist();
@@ -103,18 +112,18 @@ const RegisterForm = props => {
     formState.touched[field] && formState.errors[field] ? true : false;
 
   const onSalvar = () => {
-    EspecialidadeDTO.descricao = formState.values.descricao
     new Promise(function (resolve, reject) {
       axios({
-        method: 'POST',
-        url: 'http://localhost:8080/especialidades/',
-        data: EspecialidadeDTO
+        method: selectedCustomers.length === 1 ? 'PUT' : 'POST',
+        url: selectedCustomers.length === 1 ? '/especialidades/' + selectedCustomers[0] : '/especialidades/',
+        data: {...formState.values}
       }).then(() => {
         setTypeMessage('success')
         setMessage('Registro salvo com sucesso.');
         setIsMessage(true)
         fetchCustomers();
-        fecharNovoItem();
+        closeNewItem();
+        selectedCustomers.length = 0;
       }).catch(error => {
         setTypeMessage('error')
         setMessage('Error ao salvar o registro.');
@@ -122,6 +131,7 @@ const RegisterForm = props => {
       }).finally(
         closeMessage()
       );
+      window.scrollTo(0, document.body.scrollHeight);
     })
   }
 
@@ -159,8 +169,5 @@ const RegisterForm = props => {
   );
 };
 
-RegisterForm.propTypes = {
-  descricao: PropTypes.string
-};
 
 export default RegisterForm;
