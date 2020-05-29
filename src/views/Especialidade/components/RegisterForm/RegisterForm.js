@@ -27,10 +27,6 @@ const schema = {
   }
 };
 
-const EspecialidadeDTO = {
-  descricao: String
-}
-
 const useStyles = makeStyles(theme => ({
   root: { margin: '20px' },
   fields: {
@@ -103,11 +99,6 @@ const RegisterForm = props => {
     }));
   };
 
-  /*const handleSubmit = async event => {
-    event.preventDefault();
-    history.push('/Especialidade');
-  };*/
-
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
 
@@ -121,7 +112,7 @@ const RegisterForm = props => {
         setTypeMessage('success')
         setMessage('Registro salvo com sucesso.');
         setIsMessage(true)
-        fetchCustomers();
+        fetchCustomers(0, 10);
         closeNewItem();
         selectedCustomers.length = 0;
       }).catch(error => {

@@ -50,11 +50,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Results = props => {
-  const { className, customers, setMessage, setTypeMessage, setIsMessage, fetchCustomers, closeMessage, setNewItem, setSelectedCustomers, selectedCustomers, onEdit, ...rest } = props;
+  const { className, customers, setMessage, setTypeMessage, setIsMessage, fetchCustomers, fetchCustomersPagination, closeMessage, setNewItem, setSelectedCustomers, 
+    selectedCustomers, onEdit, page, setPage, size, rowPerPage, ...rest } = props;
 
   const classes = useStyles();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState();
 
   const handleSelectAll = event => {
     const selected = event.target.checked
@@ -85,15 +85,15 @@ const Results = props => {
       );
     }
     setSelectedCustomers(newSelectedCustomers);
-    console.log(JSON.stringify(newSelectedCustomers))
   };
 
   const handleChangePage = (event, page) => {
-    setPage(page);
+    fetchCustomersPagination(page, rowPerPage);
   };
 
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(event.target.value);
+    setRows(event.target.value);
+    fetchCustomersPagination(size / event.target.value > 1 ? 0 : page, event.target.value)
   };
 
   return (
@@ -106,8 +106,6 @@ const Results = props => {
         gutterBottom
         variant="body2"
       >
-        {customers.length} Registros encontrados. Página {page + 1} de{' '}
-        {Math.ceil(customers.length / rowsPerPage)}
       </Typography>
       <Card>
         <CardHeader
@@ -137,7 +135,7 @@ const Results = props => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {customers.slice(0, rowsPerPage).map(customer => (
+                  {customers.slice(0, rowPerPage).map(customer => (
                     <TableRow
                       hover
                       key={customer.id}
@@ -167,12 +165,14 @@ const Results = props => {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={customers.length}
+            count={size}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelDisplayedRows={({from, to, count, page}) => `${from}-${to} de ${count}`}
             page={page}
-            rowsPerPage={rowsPerPage}
+            rowsPerPage={rowPerPage}
             rowsPerPageOptions={[5, 10, 25]}
+            labelRowsPerPage={'Linhas por página:'}
           />
         </CardActions>
       </Card>

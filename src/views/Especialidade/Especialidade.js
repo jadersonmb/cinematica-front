@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 import { Page, SearchBar } from 'components';
-import { Header, Results, RegisterForm } from './components';
+import  Header   from './components/Header/Header';
+import Results  from './components/Results/Results';
+import  RegisterForm  from './components/RegisterForm/RegisterForm';
 import MuiAlert from '@material-ui/lab/Alert';
 import {
   Card,
@@ -31,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Especialidade = () => {
+  
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
@@ -38,12 +41,17 @@ const Especialidade = () => {
   const [message, setMessage] = useState();
   const [typeMessage, setTypeMessage] = useState();
   const [newItem, setNewItem] = useState(false);
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+  const [rowPerPage, setRowPerPage] = useState(10);
 
-
-  const fetchCustomers = () => {
+  const fetchCustomers = (page, rowsPerPage) => {
     window.scrollTo(0, 0);
-    axios.get('especialidades/').then(response => {
-      setCustomers(response.data);
+    axios.get('especialidades/page?page=' + page + '&linePage=' + rowsPerPage).then(response => {
+      setPage(page);
+      setRowPerPage(response.data.size);
+      setSize(response.data.totalElements);
+      setCustomers(response.data.content);
     }).catch((error) => {
       setIsMessage(true);
       setTypeMessage('error');
@@ -51,14 +59,17 @@ const Especialidade = () => {
     })
   };
 
-  useEffect(() => {
-    let mounted = true;
+  const fetchCustomersPagination = (page, rowsPerPage) => {
+    fetchCustomers(page, rowsPerPage);
+  }
 
-    fetchCustomers();
+  useEffect(() => {
+    /*let mounted = true;*/
+    fetchCustomers(page, rowPerPage);
     return () => {
-      mounted = false;
+      /*mounted = false;*/
     };
-  }, []);
+  }, []); 
 
   const handleFilter = () => { };
   const handleSearch = () => { };
@@ -72,6 +83,7 @@ const Especialidade = () => {
 
   const closeNewItem = () => {
     setNewItem(false);
+    selectedCustomers.length = 0;
   }
 
   const onEdit = () => {
@@ -105,6 +117,9 @@ const Especialidade = () => {
       }
       {customers && (
         <Results
+          size={size}
+          page={page}
+          setPage={setPage}
           onEdit={onEdit}
           selectedCustomers={selectedCustomers}
           setSelectedCustomers={setSelectedCustomers}
@@ -116,6 +131,8 @@ const Especialidade = () => {
           setIsMessage={setIsMessage}
           className={classes.results}
           customers={customers}
+          fetchCustomersPagination={fetchCustomersPagination}
+          rowPerPage={rowPerPage}
         />
       )}
     </Page>

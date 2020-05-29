@@ -50,7 +50,7 @@ const TableEditBar = props => {
         setMessage('Registro excluído com sucesso.');
         setIsMessage(true);
         selected.length = 0;
-        fetchCustomers();
+        fetchCustomers(0, 10);
       }).catch(error => {
         setTypeMessage('error')
         setMessage(error.response.data[0].mensagemUsuario);
