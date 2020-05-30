@@ -44,10 +44,12 @@ const Especialidade = () => {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
   const [rowPerPage, setRowPerPage] = useState(10);
+  const [searchText, setSearchText] = useState();
 
-  const fetchCustomers = (page, rowsPerPage) => {
+  const fetchCustomers = (page, rowsPerPage, searchText) => {
     window.scrollTo(0, 0);
-    axios.get('especialidades/page?page=' + page + '&linePage=' + rowsPerPage).then(response => {
+    let search = searchText === undefined ? '&searchTerm=' : '&searchTerm=' + searchText;
+    axios.get('especialidades/page?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
       setPage(page);
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);
@@ -71,8 +73,12 @@ const Especialidade = () => {
     };
   }, []); 
 
-  const handleFilter = () => { };
-  const handleSearch = () => { };
+  const handleFilter = () => { 
+  };
+  
+  const handleSearch = () => {
+    fetchCustomers(page, rowPerPage, searchText);
+  };
 
   const closeMessage = () => {
     setTimeout(() => {
@@ -97,6 +103,7 @@ const Especialidade = () => {
     >
       <Header setNewItem={setNewItem} />
       <SearchBar
+        setSearchText={setSearchText}
         onFilter={handleFilter}
         onSearch={handleSearch}
       />

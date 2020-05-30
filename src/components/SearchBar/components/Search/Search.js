@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Search = props => {
-  const { onSearch, className, ...rest } = props;
+  const { onSearch, className, setSearchText, ...rest } = props;
 
   const classes = useStyles();
 
@@ -48,6 +48,7 @@ const Search = props => {
           className={classes.searchInput}
           disableUnderline
           placeholder="Descrição"
+          onInput={(e) => setSearchText(e.target.value)}
         />
       </Paper>
       <Button

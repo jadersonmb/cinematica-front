@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchBar = props => {
-  const { onFilter, onSearch, className, ...rest } = props;
+  const { onFilter, onSearch, className, setSearchText, ...rest } = props;
 
   const classes = useStyles();
 
@@ -51,6 +51,7 @@ const SearchBar = props => {
     >
       <Grid item>
         <Search
+          setSearchText={setSearchText}
           className={classes.search}
           onSearch={onSearch}
         />
