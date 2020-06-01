@@ -21,7 +21,15 @@ export default [
         children: [
           {
             title: 'Especialidade',
-            href: '/Especialidade'
+            href: '/especialidade'
+          },
+          {
+            title: 'Profissão',
+            href: '/profissao'
+          },
+          {
+            title: 'Horário',
+            href: '/horario'
           }
         ]
       }

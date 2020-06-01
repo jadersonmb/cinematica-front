@@ -44,7 +44,7 @@ const TableEditBar = props => {
   const onDelete = () => {
     new Promise(function (resolve, reject) {
       var urlDelete = selected.length > 1 ? 'deleteList/' + selected : selected;
-      axios.delete('especialidades/' + urlDelete).then(response => {
+      axios.delete('horarios/' + urlDelete).then(response => {
       }).then(() => {
         setTypeMessage('success');
         setMessage('Registro excluído com sucesso.');
@@ -114,14 +114,6 @@ const TableEditBar = props => {
       </div>
     </Drawer>
   );
-};
-
-TableEditBar.propTypes = {
-  className: PropTypes.string,
-  onDelete: PropTypes.func,
-  onMarkPaid: PropTypes.func,
-  onMarkUnpaid: PropTypes.func,
-  selected: PropTypes.array.isRequired
 };
 
 export default TableEditBar;

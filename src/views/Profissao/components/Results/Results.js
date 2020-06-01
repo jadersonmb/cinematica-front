@@ -110,7 +110,7 @@ const Results = props => {
       <Card>
         <CardHeader
           action={<GenericMoreButton />}
-          title="Todas Especialidades"
+          title="Todas Profissões"
         />
         <Divider />
         <CardContent className={classes.content}>

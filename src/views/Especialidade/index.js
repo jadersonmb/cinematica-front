@@ -1,1 +1,1 @@
-export { default } from './Especialidade';
+/*export { default } from './Especialidade';*/

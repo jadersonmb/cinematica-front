@@ -110,7 +110,7 @@ const Results = props => {
       <Card>
         <CardHeader
           action={<GenericMoreButton />}
-          title="Todas Especialidades"
+          title="Todos Horários"
         />
         <Divider />
         <CardContent className={classes.content}>
@@ -131,7 +131,8 @@ const Results = props => {
                       />
                     </TableCell>
                     <TableCell />
-                    <TableCell>Descrição</TableCell>
+                    <TableCell>Horário Início</TableCell>
+                    <TableCell>Horário Fim</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -154,7 +155,8 @@ const Results = props => {
                         />
                       </TableCell>
                       <TableCell />
-                      <TableCell>{customer.descricao}</TableCell>
+                      <TableCell>{customer.horarioInicio}</TableCell>
+                      <TableCell>{customer.horarioFim}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

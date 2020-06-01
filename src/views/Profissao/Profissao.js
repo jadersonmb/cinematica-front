@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
 import { Page, SearchBar } from 'components';
-import  Header   from './components/Header/Header';
+import Header   from './components/Header/Header';
 import Results  from './components/Results/Results';
-import  RegisterForm  from './components/RegisterForm/RegisterForm';
+import RegisterForm  from './components/RegisterForm/RegisterForm';
 import MuiAlert from '@material-ui/lab/Alert';
 import {
   Card,
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Especialidade = () => {
+const Profissao = () => {
   
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
@@ -49,7 +49,7 @@ const Especialidade = () => {
   const fetchCustomers = (page, rowsPerPage, searchText) => {
     window.scrollTo(0, 0);
     let search = searchText === undefined ? '&searchTerm=' : '&searchTerm=' + searchText;
-    axios.get('especialidades/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
+    axios.get('profissoes/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
       setPage(page);
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);
@@ -99,7 +99,7 @@ const Especialidade = () => {
   return (
     <Page
       className={classes.root}
-      title="Especialidades"
+      title="Profissão"
     >
       <Header setNewItem={setNewItem} />
       <SearchBar
@@ -113,7 +113,7 @@ const Especialidade = () => {
       {(newItem) &&
         <div>
           <Card className={classes.card}>
-            <CardHeader title="Nova Especialidade" action={
+            <CardHeader title="Nova Profissão" action={
               <IconButton aria-label="cancel" onClickCapture={closeNewItem}>
                 <CancelIcon />
               </IconButton>
@@ -146,4 +146,4 @@ const Especialidade = () => {
   );
 };
 
-export default Especialidade;
+export default Profissao;

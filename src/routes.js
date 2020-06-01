@@ -8,8 +8,8 @@ import ErrorLayout from './layouts/Error';
 import DashboardLayout from './layouts/Dashboard';
 import DashboardAnalyticsView from './views/DashboardAnalytics';
 import DashboardDefaultView from './views/DashboardDefault';
-import OverviewView from './views/Overview';
-import PresentationView from './views/Especialidade';
+/*import OverviewView from './views/Overview';
+import PresentationView from './views/Especialidade'; */
 
 const routes = [
   {
@@ -70,9 +70,19 @@ const routes = [
         component: DashboardDefaultView
       },
       {
-        path: '/Especialidade',
+        path: '/especialidade',
         exact: true,
-        component: lazy(() => import('views/Especialidade'))
+        component: lazy(() => import('views/Especialidade/Especialidade'))
+      },
+      {
+        path: '/profissao',
+        exact: true,
+        component: lazy(() => import('views/Profissao/Profissao'))
+      },
+      {
+        path: '/horario',
+        exact: true,
+        component: lazy(() => import('views/Horario/Horario'))
       },
       {
         component: () => <Redirect to="/errors/error-404" />
