@@ -44,7 +44,7 @@ const TableEditBar = props => {
   const onDelete = () => {
     new Promise(function (resolve, reject) {
       var urlDelete = selected.length > 1 ? 'deleteList/' + selected : selected;
-      axios.delete('horarios/' + urlDelete).then(response => {
+      axios.delete('formaPagamentos/' + urlDelete).then(response => {
       }).then(() => {
         setTypeMessage('success');
         setMessage('Registro excluído com sucesso.');

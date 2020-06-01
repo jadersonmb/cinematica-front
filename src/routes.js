@@ -85,6 +85,11 @@ const routes = [
         component: lazy(() => import('views/Horario/Horario'))
       },
       {
+        path: '/formaPagamento',
+        exact: true,
+        component: lazy(() => import('views/FormaPagamento/FormaPagamento'))
+      },
+      {
         component: () => <Redirect to="/errors/error-404" />
       }
     ]

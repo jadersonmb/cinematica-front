@@ -3,6 +3,7 @@
 import React from 'react';
 import DesktopMacIcon from '@material-ui/icons/DesktopMac';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import { Label } from 'components';
 
 export default [
@@ -30,6 +31,21 @@ export default [
           {
             title: 'Horário',
             href: '/horario'
+          },
+          {
+            title: 'Formas de Pagamento',
+            href: '/formaPagamento'
+          }
+        ]
+      },
+      {
+        title: 'Financeiro',
+        href: '/financeiro',
+        icon: MonetizationOnIcon,
+        children: [
+          {
+            title: 'FluxoCaixa',
+            href: '/fluxoCaixa'
           }
         ]
       }
