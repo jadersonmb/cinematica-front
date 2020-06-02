@@ -44,7 +44,7 @@ export default [
         icon: MonetizationOnIcon,
         children: [
           {
-            title: 'FluxoCaixa',
+            title: 'Fluxo de Caixa',
             href: '/fluxoCaixa'
           }
         ]

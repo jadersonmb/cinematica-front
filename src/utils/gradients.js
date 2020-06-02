@@ -6,9 +6,9 @@ const buildGradient = (start, end) =>
 const grey = buildGradient(colors.grey[400], colors.grey[600]);
 const blue = buildGradient(colors.blue[700], colors.blue[900]);
 const indigo = buildGradient(colors.indigo[400], colors.indigo[600]);
-const green = buildGradient(colors.green[400], colors.green[600]);
+const green = buildGradient(colors.green[400], colors.green[900]);
 const orange = buildGradient(colors.orange[400], colors.orange[700]);
-const red = buildGradient(colors.red[500], colors.red[700]);
+const red = buildGradient(colors.red[500], colors.red[800]);
 
 export default {
   grey,

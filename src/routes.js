@@ -85,6 +85,11 @@ const routes = [
         component: lazy(() => import('views/Horario/Horario'))
       },
       {
+        path: '/fluxoCaixa',
+        exact: true,
+        component: lazy(() => import('views/FluxoCaixa/FluxoCaixa'))
+      },
+      {
         path: '/formaPagamento',
         exact: true,
         component: lazy(() => import('views/FormaPagamento/FormaPagamento'))
