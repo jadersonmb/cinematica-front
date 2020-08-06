@@ -176,7 +176,7 @@ const Results = props => {
           />
         </CardActions>
       </Card>
-      <TableEditBar onEdit={onEdit} setNewItem={setNewItem} selected={selectedCustomers} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage}/>
+      <TableEditBar onEdit={onEdit} setNewItem={setNewItem} selected={selectedCustomers} closeMessage={closeMessage} fetchCustomers={fetchCustomers} setMessage={setMessage} setTypeMessage={setTypeMessage} setIsMessage={setIsMessage}  servico={'especialidades/'}/>
     </div>
   );
 };

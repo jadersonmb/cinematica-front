@@ -36,6 +36,7 @@ const TableEditBar = props => {
     setMessage,
     setTypeMessage,
     setIsMessage,
+    servico,
     ...rest
   } = props;
 
@@ -44,7 +45,7 @@ const TableEditBar = props => {
   const onDelete = () => {
     new Promise(function (resolve, reject) {
       var urlDelete = selected.length > 1 ? 'deleteList/' + selected : selected;
-      axios.delete('fluxoCaixa/' + urlDelete).then(response => {
+      axios.delete('/cinematica-service/'+ servico + urlDelete).then(response => {
       }).then(() => {
         setTypeMessage('success');
         setMessage('Registro excluído com sucesso.');

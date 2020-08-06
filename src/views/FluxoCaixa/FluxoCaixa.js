@@ -72,7 +72,6 @@ const FluxoCaixa = () => {
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);
       setCustomers(response.data.content);
-      console.log(response.data.content)
     }).catch((error) => {
       setIsMessage(true);
       setTypeMessage('error');

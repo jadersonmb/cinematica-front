@@ -49,7 +49,7 @@ const Especialidade = () => {
   const fetchCustomers = (page, rowsPerPage, searchText) => {
     window.scrollTo(0, 0);
     let search = searchText === undefined ? '&searchTerm=' : '&searchTerm=' + searchText;
-    axios.get('/cinematica-service/especialidades/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
+    axios.get('/cinematica-service/especialidades/?page=' + page + '&size=' + rowsPerPage + search).then(response => {
       setPage(page);
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);
