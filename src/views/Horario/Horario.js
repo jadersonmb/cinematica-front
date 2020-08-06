@@ -49,7 +49,7 @@ const Horario = () => {
   const fetchCustomers = (page, rowsPerPage, searchText) => {
     window.scrollTo(0, 0);
     let search = searchText === undefined ? '&searchTerm=' : '&searchTerm=' + searchText;
-    axios.get('horarios/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
+    axios.get('/cinematica-service/horarios/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
       setPage(page);
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);

@@ -195,9 +195,9 @@ const Results = props => {
                           </Avatar>
                         </HtmlTooltip>
                       </TableCell>
-                      <TableCell>{customer.pessoa.nome}</TableCell>
+                      <TableCell>{customer.pessoa === null ? 'Cinemática' : customer.pessoa.nome}</TableCell>
                       <TableCell>{moment(customer.dataLancamento).format('L')}</TableCell>
-                      <TableCell>{customer.especialidade.descricao}</TableCell>
+                      <TableCell>{customer.especialidade !== null ? customer.especialidade.descricao : ''}</TableCell>
                       <TableCell>{customer.usuario.pessoa.nome}</TableCell>
                       <TableCell><Label color={customer.tipoLancamento == 'Receita' ? 'Green' : 'Red'} ><NumberFormat value={customer.valor} displayType={'text'} thousandSeparator={true} prefix={'R$'} /></Label></TableCell>
                     </TableRow>

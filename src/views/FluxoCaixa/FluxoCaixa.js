@@ -67,11 +67,12 @@ const FluxoCaixa = () => {
   const fetchCustomers = (page, rowsPerPage, searchText) => {
     window.scrollTo(0, 0);
     let search = searchText === undefined ? '&searchTerm=' : '&searchTerm=' + searchText;
-    axios.get('fluxoCaixa/?page=' + page + '&linePage=' + rowsPerPage + search).then(response => {
+    axios.get('/cinematica-service/fluxoCaixa/?page=' + page + '&size=' + rowsPerPage + search).then(response => {
       setPage(page);
       setRowPerPage(response.data.size);
       setSize(response.data.totalElements);
       setCustomers(response.data.content);
+      console.log(response.data.content)
     }).catch((error) => {
       setIsMessage(true);
       setTypeMessage('error');

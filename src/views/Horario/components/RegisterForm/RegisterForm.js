@@ -108,7 +108,7 @@ const RegisterForm = props => {
     new Promise(function (resolve, reject) {
       axios({
         method: selectedCustomers.length === 1 ? 'PUT' : 'POST',
-        url: selectedCustomers.length === 1 ? '/horarios/' + selectedCustomers[0] : '/horarios/',
+        url: '/cinematica-service' + (selectedCustomers.length === 1 ? '/horarios/' + selectedCustomers[0] : '/horarios'),
         data: {...formState.values}
       }).then(() => {
         setTypeMessage('success')
