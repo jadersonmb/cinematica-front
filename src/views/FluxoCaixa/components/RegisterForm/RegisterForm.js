@@ -12,10 +12,14 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import useRouter from 'utils/useRouter';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import moment from 'moment';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
 const schema = {
@@ -57,12 +61,11 @@ const RegisterForm = props => {
   const classes = useStyles();
   const { history } = useRouter();
 
-  const optionsTipoLancamento = ['Receita', 'Despesa'];
-  const [inputTipoLancamento, setInputTipoLancamento] = useState('');
-  const [valueTipoLancamento, setValueTipoLancamento] = useState([]);
+  
   const [paciente, setPaciente] = React.useState([]);
   const [formaPagamento, setFormaPagamento] = React.useState([]);
   const [especialidade, setEspecialidade] = React.useState([]);
+  const [tipoLancamento, setTipoLancamento] = React.useState([{"nome": "Receita" }, {"nome": "Despesa"}]);
 
   useEffect(() => {
     /*let mounted = true;*/
@@ -80,6 +83,9 @@ const RegisterForm = props => {
       dataLancamento: new Date(),
       formaPagamento: '',
       especialidade: '',
+      descricao: '',
+      valor: '',
+      tipoLancamento: '',
     },
     touched: {
     },
@@ -88,13 +94,15 @@ const RegisterForm = props => {
 
   if (selectedCustomers.length === 1 && formState.values.numeroRecibo === '') {
     const customer = customers.filter(e => e.id === selectedCustomers[0]);
-    setValueTipoLancamento(customer[0].tipoLancamento);
+    formState.values.tipoLancamento = customer[0].tipoLancamento
     formState.values.numeroRecibo = customer[0].numeroRecibo;
     formState.values.quantidadeParcela = customer[0].quantidadeParcela;
     formState.values.dataLancamento = customer[0].dataLancamento;
     formState.values.paciente = customer[0].pessoa === null ? 'Cinemática' : customer[0].pessoa.nome;
+    formState.values.descricao = customer[0].descricao;
+    formState.values.valor = customer[0].valor;
     formState.isValid = true;
-    console.log(formState.values.paciente)
+    console.log(formState.values)
   }
 
   const handleChange = event => {
@@ -126,8 +134,9 @@ const RegisterForm = props => {
     formState.touched[field] && formState.errors[field] ? true : false;
 
   const onSalvar = () => {
-    formState.values.paciente = formState.values.paciente != undefined ? formState.values.paciente.id : null;
-    /*new Promise(function (resolve, reject) {
+    formState.values.tipoLancamento = formState.values.tipoLancamento != undefined ? formState.values.tipoLancamento.nome : null;
+    /*formState.values.paciente = formState.values.paciente != undefined ? formState.values.paciente.id : null; */
+    new Promise(function (resolve, reject) {
       axios({
         method: selectedCustomers.length === 1 ? 'PUT' : 'POST',
         url: '/cinematica-service' + (selectedCustomers.length === 1 ? '/fluxoCaixa/' + selectedCustomers[0] : '/fluxoCaixa'),
@@ -147,7 +156,7 @@ const RegisterForm = props => {
         closeMessage()
       );
       window.scrollTo(0, document.body.scrollHeight);
-    })*/
+    }) 
     console.log(formState.values)
   }
 
@@ -217,24 +226,52 @@ const RegisterForm = props => {
     }));
   };
 
+  const handleTipoLancamentoChange = async (event, newValue) => {
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        tipoLancamento: newValue
+      },
+      touched: {
+        ...formState.touched,
+        tipoLancamento: true
+      }
+    }));
+  };
+
+  const numberFormat = (value) =>
+    new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(value);
+
   return (
     <form
       {...rest}
       className={clsx(classes.root, horario)}>
       <div className={classes.fields}>
         <Autocomplete
-          value={valueTipoLancamento}
-          onChange={(event, newValue) => {
-            setValueTipoLancamento(newValue);
-          }}
-          inputValue={inputTipoLancamento}
-          onInputChange={(event, newInputValue) => {
-            setInputTipoLancamento(newInputValue);
-          }}
-          id="idTipoLancamentoCombo"
-          options={optionsTipoLancamento}
-          renderInput={(params) => <TextField {...params} label="Tipo de Lançamento" variant="outlined" />}
+          loadingText="Aguarde um momento..."
+          noOptionsText="Nada foi encontrado"
+          options={tipoLancamento}
+          value={formState.values.tipoLancamento}
+          onChange={handleTipoLancamentoChange}
+          getOptionLabel={option => option.nome ? option.nome : ''}
+          includeInputInList
+          renderInput={params => (
+            <TextField
+              {...params}
+              name="tipoLancamento"
+              error={hasError('tipoLancamento')}
+              helperText={hasError('tipoLancamento') ? formState.errors.tipoLancamento[0] : null}
+              label="Tipo de Lançamento"
+              variant="outlined"
+            />
+          )}
         />
+      </div>
+      <div className={classes.fields}>
         <Autocomplete
           loadingText="Aguarde um momento..."
           noOptionsText="Nada foi encontrado"
@@ -291,7 +328,7 @@ const RegisterForm = props => {
         />
       </div>
       <div className={classes.fields}>
-      <Autocomplete
+        <Autocomplete
           loadingText="Aguarde um momento..."
           noOptionsText="Nada foi encontrado"
           options={especialidade}
@@ -312,8 +349,8 @@ const RegisterForm = props => {
             />
           )}
         />
-        </div>
-        <div className={classes.fields}>
+      </div>
+      <div className={classes.fields}>
         <Autocomplete
           loadingText="Aguarde um momento..."
           noOptionsText="Nada foi encontrado"
@@ -335,6 +372,31 @@ const RegisterForm = props => {
             />
           )}
         />
+      </div>
+      <div className={classes.fields}>
+      <TextField
+          error={hasError('descricao')}
+          label="Observações"
+          name="descricao"
+          onChange={handleChange}
+          value={formState.values.descricao || ''}
+          variant="outlined"
+        />
+      </div>
+      <div className={classes.fields}>
+        <FormControl fullWidth className={classes.margin} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-amount">Valor</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            name="valor"
+            pattern="[0-9]*"
+            type="number"
+            value={formState.values.valor}
+            onChange={handleChange}
+            startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+            labelWidth={60}
+          />
+        </FormControl>
       </div>
       <Button
         className={classes.submitButton}
